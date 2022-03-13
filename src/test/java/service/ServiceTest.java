@@ -1,6 +1,7 @@
 package service;
 
 import domain.Student;
+import org.junit.Before;
 import org.junit.Test;
 import repository.NotaXMLRepo;
 import repository.StudentXMLRepo;
@@ -19,6 +20,33 @@ public class ServiceTest
     /**
      * Rigorous Test :-)
      */
+
+    String filenameStudent = "fisiere/Studenti.xml";
+    String filenameTema = "fisiere/Teme.xml";
+    String filenameNota = "fisiere/Note.xml";
+
+
+    StudentValidator studentValidator;
+    TemaValidator temaValidator;
+
+    StudentXMLRepo studentXMLRepository;
+    TemaXMLRepo temaXMLRepository;
+    NotaValidator notaValidator;
+    NotaXMLRepo notaXMLRepository;
+    Service service;
+
+    @Before
+    public void setup() {
+         studentValidator = new StudentValidator();
+         temaValidator = new TemaValidator();
+         studentXMLRepository = new StudentXMLRepo(filenameStudent);
+         temaXMLRepository = new TemaXMLRepo(filenameTema);
+         notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
+         notaXMLRepository = new NotaXMLRepo(filenameNota);
+         service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+
+    }
+
     @Test
     public void shouldAnswerWithTrue()
     {
@@ -29,23 +57,20 @@ public class ServiceTest
     public void tc_SHOULD_add_WHEN_addStudent_WITH_valid_student() {
         Student stud = new Student("2001", "New Student", 936, "test@gmail.com");
 
-        StudentValidator studentValidator = new StudentValidator();
-        TemaValidator temaValidator = new TemaValidator();
-
-        String filenameStudent = "fisiere/Studenti.xml";
-        String filenameTema = "fisiere/Teme.xml";
-        String filenameNota = "fisiere/Note.xml";
-
-
-        StudentXMLRepo studentXMLRepository = new StudentXMLRepo(filenameStudent);
-        TemaXMLRepo temaXMLRepository = new TemaXMLRepo(filenameTema);
-        NotaValidator notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
-        NotaXMLRepo notaXMLRepository = new NotaXMLRepo(filenameNota);
-        Service service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
-
         service.addStudent(stud);
 
         assert(service.findStudent(stud.getID()) != null);
+    }
+
+    @Test
+    public void tc_SHOULD_remove_WHEN_deleteStudent_WITH_valid_student_id() {
+        Student stud = new Student("2001", "New Student", 936, "test@gmail.com");
+
+        service.addStudent(stud);
+
+        service.deleteStudent(stud.getID());
+
+        assert(service.findStudent(stud.getID()) == null);
     }
 
 

@@ -47,7 +47,6 @@ public class ServiceTest
          notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
          notaXMLRepository = new NotaXMLRepo(filenameNota);
          service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
-
     }
 
     @Test
@@ -119,7 +118,6 @@ public class ServiceTest
         Student stud = new Student("1", "name", 936, "test@gmail.com");
 
         service.addStudent(stud);
-
         Student returnedStudent = service.addStudent(stud);
 
         assert(Objects.equals(returnedStudent.getID(), stud.getID()));

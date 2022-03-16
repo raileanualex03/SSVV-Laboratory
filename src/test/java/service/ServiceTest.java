@@ -3,12 +3,14 @@ package service;
 import domain.Student;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import repository.NotaXMLRepo;
 import repository.StudentXMLRepo;
 import repository.TemaXMLRepo;
 import validation.NotaValidator;
 import validation.StudentValidator;
 import validation.TemaValidator;
+import validation.ValidationException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -62,16 +64,17 @@ public class ServiceTest
         assert(service.findStudent(stud.getID()) != null);
     }
 
-    @Test
-    public void tc_SHOULD_remove_WHEN_deleteStudent_WITH_valid_student_id() {
-        Student stud = new Student("2001", "New Student", 936, "test@gmail.com");
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addStudent_WITH_invalid_id() {
+        Student stud = new Student("", "New Student", 936, "test@gmail.com");
 
         service.addStudent(stud);
-
-        service.deleteStudent(stud.getID());
-
-        assert(service.findStudent(stud.getID()) == null);
     }
 
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addStudent_WITH_invalid_name() {
+        Student stud = new Student("1", "", 936, "test@gmail.com");
 
+        service.addStudent(stud);
+    }
 }

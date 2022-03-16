@@ -3,7 +3,6 @@ package service;
 import domain.Student;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import repository.NotaXMLRepo;
 import repository.StudentXMLRepo;
 import repository.TemaXMLRepo;
@@ -11,6 +10,8 @@ import validation.NotaValidator;
 import validation.StudentValidator;
 import validation.TemaValidator;
 import validation.ValidationException;
+
+import java.util.Objects;
 
 import static org.junit.Assert.assertTrue;
 
@@ -65,16 +66,62 @@ public class ServiceTest
     }
 
     @Test(expected=ValidationException.class)
-    public void tc_SHOULD_throwError_WHEN_addStudent_WITH_invalid_id() {
+    public void tc_SHOULD_throwError_WHEN_addStudent_WITH_empty_id() {
         Student stud = new Student("", "New Student", 936, "test@gmail.com");
 
         service.addStudent(stud);
     }
 
     @Test(expected=ValidationException.class)
-    public void tc_SHOULD_throwError_WHEN_addStudent_WITH_invalid_name() {
+    public void tc_SHOULD_throwError_WHEN_addStudent_WITH_empty_name() {
         Student stud = new Student("1", "", 936, "test@gmail.com");
 
         service.addStudent(stud);
+    }
+
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addStudent_WITH_empty_email() {
+        Student stud = new Student("1", "", 936, "");
+
+        service.addStudent(stud);
+    }
+
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addStudent_WITH_null_id() {
+        Student stud = new Student(null, "New Student", 936, "test@gmail.com");
+
+        service.addStudent(stud);
+    }
+
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addStudent_WITH_null_name() {
+        Student stud = new Student("1", null, 936, "test@gmail.com");
+
+        service.addStudent(stud);
+    }
+
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addStudent_WITH_null_email() {
+        Student stud = new Student("1", null, 936, null);
+
+        service.addStudent(stud);
+    }
+
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addStudent_WITH_invalid_group() {
+        Student stud = new Student("1", "name", -1, "test@gmail.com");
+
+        service.addStudent(stud);
+    }
+
+    @Test
+    public void tc_SHOULD_notAddAnotherStudent_WHEN_addStudent_WITH_existing_student_id() {
+        Student stud = new Student("1", "name", 936, "test@gmail.com");
+
+        service.addStudent(stud);
+
+        Student returnedStudent = service.addStudent(stud);
+
+        assert(Objects.equals(returnedStudent.getID(), stud.getID()));
     }
 }

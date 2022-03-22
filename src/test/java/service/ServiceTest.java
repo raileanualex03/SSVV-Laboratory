@@ -1,6 +1,7 @@
 package service;
 
 import domain.Student;
+import domain.Tema;
 import org.junit.Before;
 import org.junit.Test;
 import repository.NotaXMLRepo;
@@ -123,5 +124,75 @@ public class ServiceTest
         Student returnedStudent = service.addStudent(stud);
 
         assert(Objects.equals(returnedStudent.getID(), stud.getID()));
+    }
+
+
+    @Test
+    public void tc_SHOULD_addTema_WHEN_addTema_WITH_valid_tema() {
+        Tema tema = new Tema("1", "description", 1, 1);
+
+        service.addTema(tema);
+
+        assert(Objects.equals(service.findTema(tema.getID()).getID(), tema.getID()));
+    }
+
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addTema_WITH_empty_nr() {
+        Tema tema = new Tema("", "New Tema", 936, 1);
+
+        service.addTema(tema);
+    }
+
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addTema_WITH_null_nr() {
+        Tema tema = new Tema(null, "New Tema", 936, 1);
+
+        service.addTema(tema);
+    }
+
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addTema_WITH_empty_description() {
+        Tema tema = new Tema("1", "", 936, 1);
+
+        service.addTema(tema);
+    }
+
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addTema_WITH_invalid_negative_deadline() {
+        Tema tema = new Tema(null, "New Tema", -1, 1);
+
+        service.addTema(tema);
+    }
+
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addTema_WITH_invalid_too_big_deadline() {
+        Tema tema = new Tema("1", "descr", 15, 1);
+
+        service.addTema(tema);
+    }
+
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addTema_WITH_invalid_negative_primire() {
+        Tema tema = new Tema("1", "New Tema", -1, 1);
+
+        service.addTema(tema);
+    }
+
+    @Test(expected=ValidationException.class)
+    public void tc_SHOULD_throwError_WHEN_addTema_WITH_invalid_too_big_primire() {
+        Tema tema = new Tema("1", "descr", 15, 1);
+
+        service.addTema(tema);
+    }
+
+    @Test
+    public void tc_SHOULD_notAddAnotherTema_WHEN_addTema_WITH_existing_id() {
+        Tema tema = new Tema("1", "name", 1, 1);
+
+        service.addTema(tema);
+
+        Tema returnedTema = service.addTema(tema);
+
+        assert(Objects.equals(returnedTema.getID(), tema.getID()));
     }
 }

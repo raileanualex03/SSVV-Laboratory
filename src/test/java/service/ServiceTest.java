@@ -14,13 +14,18 @@ import validation.ValidationException;
 import java.util.Objects;
 
 /**
- * Unit tests for src/main/java/service/Service.java
+ * Unit test for simple App.
  */
 public class ServiceTest
 {
+    /**
+     * Rigorous Test :-)
+     */
+
     String filenameStudent = "fisiere/Studenti.xml";
     String filenameTema = "fisiere/Teme.xml";
     String filenameNota = "fisiere/Note.xml";
+
 
     StudentValidator studentValidator;
     TemaValidator temaValidator;
@@ -40,6 +45,12 @@ public class ServiceTest
          notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
          notaXMLRepository = new NotaXMLRepo(filenameNota);
          service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+    }
+
+    @Test
+    public void shouldAnswerWithTrue()
+    {
+        assertTrue( true );
     }
 
     @Test

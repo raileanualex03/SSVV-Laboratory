@@ -13,6 +13,8 @@ import validation.ValidationException;
 
 import java.util.Objects;
 
+import static org.junit.Assert.assertTrue;
+
 /**
  * Unit test for simple App.
  */
@@ -38,13 +40,14 @@ public class ServiceTest
 
     @Before
     public void setup() {
-         studentValidator = new StudentValidator();
-         temaValidator = new TemaValidator();
-         studentXMLRepository = new StudentXMLRepo(filenameStudent);
-         temaXMLRepository = new TemaXMLRepo(filenameTema);
-         notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
-         notaXMLRepository = new NotaXMLRepo(filenameNota);
-         service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+        studentValidator = new StudentValidator();
+        temaValidator = new TemaValidator();
+        studentXMLRepository = new StudentXMLRepo(filenameStudent);
+        temaXMLRepository = new TemaXMLRepo(filenameTema);
+        notaValidator = new NotaValidator(studentXMLRepository, temaXMLRepository);
+        notaXMLRepository = new NotaXMLRepo(filenameNota);
+        service = new Service(studentXMLRepository, studentValidator, temaXMLRepository, temaValidator, notaXMLRepository, notaValidator);
+
     }
 
     @Test
@@ -116,8 +119,9 @@ public class ServiceTest
         Student stud = new Student("1", "name", 936, "test@gmail.com");
 
         service.addStudent(stud);
+
         Student returnedStudent = service.addStudent(stud);
 
-        assert(Objects.equals(returnedStudent, null));
+        assert(Objects.equals(returnedStudent.getID(), stud.getID()));
     }
 }

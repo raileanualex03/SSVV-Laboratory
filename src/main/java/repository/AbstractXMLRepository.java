@@ -84,18 +84,16 @@ public abstract class AbstractXMLRepository<ID, E extends HasID<ID>> extends Abs
      * @param entity - obiectul pe care il salveaza
      * @return null daca obiectul s-a salvat cu succes sau obiectul daca acesta exista deja in memorie
      */
-   @Override
+    @Override
     public E save(E entity) {
-       E entity1 = super.save(entity);
+        E entity1 = super.save(entity);
+        if (entity1 == null) {
+            //saveToFile(entity);
+            writeToFile();
+        }
 
-       if (entity1 != null ) {
-           return null;
-       }
-
-       writeToFile();
-
-       return entity;
-   }
+        return entity1;
+    }
     /**
      * Rescrie fisierul cu toate obiectele din memorie
      */
@@ -120,7 +118,7 @@ public abstract class AbstractXMLRepository<ID, E extends HasID<ID>> extends Abs
                     new StreamResult(this.filename));
 
         }catch(Exception e){
-        e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

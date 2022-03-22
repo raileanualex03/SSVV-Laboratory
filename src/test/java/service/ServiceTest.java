@@ -13,8 +13,6 @@ import validation.ValidationException;
 
 import java.util.Objects;
 
-import static org.junit.Assert.assertTrue;
-
 /**
  * Unit tests for src/main/java/service/Service.java
  */
@@ -109,6 +107,6 @@ public class ServiceTest
         service.addStudent(stud);
         Student returnedStudent = service.addStudent(stud);
 
-        assert(Objects.equals(returnedStudent.getID(), stud.getID()));
+        assert(Objects.equals(returnedStudent, null));
     }
 }

@@ -1,4 +1,4 @@
-package service;
+package ssvv.integration;
 
 import domain.Nota;
 import domain.Student;
@@ -8,19 +8,18 @@ import org.junit.Test;
 import repository.NotaXMLRepo;
 import repository.StudentXMLRepo;
 import repository.TemaXMLRepo;
+import service.Service;
 import validation.NotaValidator;
 import validation.StudentValidator;
 import validation.TemaValidator;
-import validation.ValidationException;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class BigBangTest {
+public class IntegrationTests {
     String filenameStudent = "fisiere/Studenti.xml";
     String filenameTema = "fisiere/Teme.xml";
     String filenameNota = "fisiere/Note.xml";
-
 
     StudentValidator studentValidator;
     TemaValidator temaValidator;

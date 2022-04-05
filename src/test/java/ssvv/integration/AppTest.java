@@ -1,4 +1,4 @@
-package ssvv.example;
+package ssvv.integration;
 
 import static org.junit.Assert.assertTrue;
 

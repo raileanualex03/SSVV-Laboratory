@@ -84,4 +84,50 @@ public class IntegrationTests {
         assert(Objects.equals(service.findNota(nota.getID()).getID(), nota.getID()));
         assert(Objects.equals(service.findNota(nota.getID()).getNota(), nota.getNota()));
     }
+
+    // Take Home:
+    // Incremental  integration  (top-down)(10XP)
+    // 1  Test  case for addStudent,
+    // 1 integration test  for addAssignment (addStudent+addAssignment),
+    // 1 integration  test  for addGrade(addStudent+addAssignment+addGrade)
+
+    @Test
+    public void tc_SHOULD_addStudent_WHEN_addStudent_valid() {
+        Student stud = new Student("0123", "TH Student", 936, "student@takehome.com");
+
+        service.addStudent(stud);
+
+        assert(service.findStudent(stud.getID()) != null);
+    }
+
+    // 1 integration test  for addAssignment (addStudent+addAssignment)
+    @Test
+    public void tc_SHOULD_addStudent_addAssignment_WHEN_integration_addAssignment_valid() {
+        Student stud = new Student("0123", "TH Student", 936, "student@takehome.com");
+        Tema tema = new Tema("5", "Take Home", 14, 14);
+
+        service.addStudent(stud);
+        service.addTema(tema);
+
+        assert(service.findStudent(stud.getID()) != null);
+        assert(Objects.equals(service.findTema(tema.getID()).getID(), tema.getID()));
+    }
+
+    // 1 integration  test  for addGrade(addStudent+addAssignment+addGrade)
+    @Test
+    public void tc_SHOULD_addStudent_addAssignment_addGrade_WHEN_integration_addGrade_valid() {
+        Student stud = new Student("0123", "TH Student", 936, "student@takehome.com");
+        Tema tema = new Tema("5", "Take Home", 14, 14);
+        Nota nota = new Nota("1", "2001", "1", 10.00, LocalDate.of(2018, 3, 1));
+
+        service.addStudent(stud);
+        service.addTema(tema);
+        service.addNota(nota, "very good");
+
+        assert(service.findStudent(stud.getID()) != null);
+        assert(Objects.equals(service.findTema(tema.getID()).getID(), tema.getID()));
+        assert(Objects.equals(service.findNota(nota.getID()).getID(), nota.getID()));
+        assert(Objects.equals(service.findNota(nota.getID()).getNota(), nota.getNota()));
+    }
+
 }
